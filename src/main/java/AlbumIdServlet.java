@@ -14,9 +14,11 @@ public class AlbumIdServlet extends HttpServlet {
     String pathInfo = request.getPathInfo();
 
     if (pathInfo != null) {
-      // Retrieve the albumId meanwhile removing '/'
+      // Retrieve the albumID
       String albumID = pathInfo.substring(1);
       Album album = AlbumStore.getAlbum(albumID);
+      // Remove album after get to ensure memory is not full from a lot of thread requests
+      AlbumStore.remAlbum(albumID);
 
       // If we can find an album with the given ID
       if (album != null) {

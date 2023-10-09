@@ -11,4 +11,8 @@ public class AlbumStore {
   public static Album getAlbum(String id) {
     return albums.get(id);
   }
+
+  public static void remAlbum(String id) {
+    albums.remove(id);
+  }
 }

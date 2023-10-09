@@ -48,7 +48,7 @@ public class AlbumServlet extends HttpServlet {
         byte[] input = new byte[(int) profilePart.getSize()];
         profilePart.getInputStream().read(input);
         String profileContent = new String(input, StandardCharsets.UTF_8);
-        System.out.println(profileContent);
+//        System.out.println(profileContent);
           JsonObject profileJson =  JsonParser.parseString(profileContent).getAsJsonObject();
           profile = new Profile(
               profileJson.get("artist").getAsString(),
@@ -67,8 +67,8 @@ public class AlbumServlet extends HttpServlet {
 
     String albumID = UUID.randomUUID().toString();
     Album album = new Album(albumID, profile, image);
-    // add album to storage
-    AlbumStore.addAlbum(album);
+    // add album to storage, NOT NEEDED FOR THIS ASSIGNMENT, SO commented out
+//    AlbumStore.addAlbum(album);
 
     // Output response with album key
     JsonObject jsonResponse = new JsonObject();
