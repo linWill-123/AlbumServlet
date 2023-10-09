@@ -24,8 +24,6 @@ public class AlbumIdServlet extends HttpServlet {
 
         // Construct the JSON response
         JsonObject jsonResponse = new JsonObject();
-//        jsonResponse.addProperty("albumId", album.getId());
-//        jsonResponse.addProperty("imageSize", album.getImage().length);
         jsonResponse.addProperty("artist",album.getProfile().getArtist());
         jsonResponse.addProperty("title",album.getProfile().getTitle());
         jsonResponse.addProperty("year",album.getProfile().getYear());
