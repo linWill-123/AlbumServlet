@@ -64,11 +64,9 @@ public class AlbumServlet extends HttpServlet {
       response.getWriter().write("Error parsing form data");
       return;
     }
-
+    // Create album, but we aren't going to add it to our AlbumStore
     String albumID = UUID.randomUUID().toString();
     Album album = new Album(albumID, profile, image);
-    // add album to storage, NOT NEEDED FOR THIS ASSIGNMENT, SO commented out
-//    AlbumStore.addAlbum(album);
 
     // Output response with album key
     JsonObject jsonResponse = new JsonObject();
