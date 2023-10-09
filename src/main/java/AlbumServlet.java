@@ -41,7 +41,6 @@ public class AlbumServlet extends HttpServlet {
         response.getWriter().write("POST Request body missing image field");
         return;
       }
-
       // Handle profile field
       Part profilePart = request.getPart("profile");
       if (profilePart != null) {
@@ -50,44 +49,22 @@ public class AlbumServlet extends HttpServlet {
         profilePart.getInputStream().read(input);
         String profileContent = new String(input, StandardCharsets.UTF_8);
         System.out.println(profileContent);
-        /* Parse json string into json object, but since client may send the data as album project
-         we need to handle it*/
-        try {
-          // If profile is sent in form of json
           JsonObject profileJson =  JsonParser.parseString(profileContent).getAsJsonObject();
           profile = new Profile(
               profileJson.get("artist").getAsString(),
               profileJson.get("title").getAsString(),
               profileJson.get("year").getAsString());
-        } catch (JsonSyntaxException e1) {
-          try {
-            // If profile is sent in form of AlbumProfile class, we are going to reconstruct string into Json String
-            String cleanedProfileContent = cleanProfileString(profileContent);
-            profile = new Gson().fromJson(cleanedProfileContent, Profile.class);
-          } catch (JsonSyntaxException e2) {
-            System.out.println("Invalid profile format!");
-            String cleanedProfileContent = cleanProfileString(profileContent);
-            System.out.println(cleanedProfileContent);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("Invalid profile format");
-            return;
-          }
-        }
-
-      } else {
+        } else {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("POST Request body missing profile field");
         return;
       }
-
     } catch (Exception e) {
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().write("Error parsing form data");
       return;
     }
-    System.out.println(profile.getArtist());
-    System.out.println(profile.getTitle());
-    System.out.println(profile.getYear());
+
     String albumID = UUID.randomUUID().toString();
     Album album = new Album(albumID, profile, image);
     // add album to storage
